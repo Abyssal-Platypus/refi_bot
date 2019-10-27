@@ -15,9 +15,6 @@ merc_list is going to be the file that contains all of the mercs
 for the GetMerc testing code. Phactos and I had discussed a bot that
 will at least get you the page off of book.browndust.app that contains
 the merc info.
-
-**Note**
-This code will not run in discord in its current state.
 """
 import discord
 import json
@@ -31,12 +28,6 @@ class DadJoke():
         url = endpoint + f'/j/{id}' if id else endpoint
         response = requests.get(url, headers = {"accept" : "application/json"})
         return json.loads(response.text)['joke']
-
-#class GetMerc():
-#    def merc(s):
-#        merc_name = s
-#        merc_num = merc_list.Mercs.legendary(merc_name)
-#        return merc_num
 
 class MyClient(discord.Client):
     async def on_ready(self):
@@ -59,17 +50,11 @@ class MyClient(discord.Client):
             await channel.send(
                 'Command "$tell me a joke" to get a horrible dad joke.')
 
-"""
-This code is under construction for the BD Book connection, the response still 
-section still needs to be worked out. 
-"""
-#        if message.content.startswith('$find legend'):
-#            await channel.send('What merc do you want to find?')
-#            def check(reaction, user):
-#                return user == message.author
-#            await channel.send(
-#                f'book.browndust.app/detail.html?id={GetMerc.merc.merc_num()}'
-#                )
+        if message.content.startswith('$find '):
+            sep = " "
+            merc_name = message.content.split(sep, 1)[1]
+            merc_number = merc_list.Mercs.merc_num(merc_name)
+            await channel.send(f"https://book.browndust.app/detail.html?id={merc_number}")
 
 
 
